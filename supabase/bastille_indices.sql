@@ -46,11 +46,6 @@ CREATE INDEX IF NOT EXISTS idx_transactions_reservation_id
 CREATE INDEX IF NOT EXISTS idx_transactions_caja
   ON transactions(caja);
 
--- 8. reservations: urgencia_acked (para el banner de HABILITAR URGENTE)
-CREATE INDEX IF NOT EXISTS idx_reservations_urgencia_acked
-  ON reservations(urgencia_acked)
-  WHERE urgencia_acked = false;
-
 -- ============================================================
 -- Verificar índices creados
 -- ============================================================
