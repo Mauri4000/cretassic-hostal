@@ -1,7 +1,7 @@
 import { lazy, Suspense, useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-// Public site
+// Public sitee
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import Rooms from "./components/Rooms";
@@ -23,23 +23,27 @@ import AdminLayout from "./admin/components/AdminLayout";
 import LoginPage from "./admin/pages/LoginPage";
 
 // Admin pages — lazy loaded per route
-const DashboardPage        = lazy(() => import("./admin/pages/DashboardPage"));
-const CalendarPage         = lazy(() => import("./admin/pages/CalendarPage"));
-const TransactionsPage     = lazy(() => import("./admin/pages/TransactionsPage"));
-const PettyCashPage        = lazy(() => import("./admin/pages/PettyCashPage"));
-const ShiftPage            = lazy(() => import("./admin/pages/ShiftPage"));
-const ReportesPage         = lazy(() => import("./admin/pages/ReportesPage"));
-const HistorialPage        = lazy(() => import("./admin/pages/HistorialPage"));
-const GuestDatabasePage    = lazy(() => import("./admin/pages/GuestDatabasePage"));
-const VitrinaPage          = lazy(() => import("./admin/pages/VitrinaPage"));
-const SpanishSchoolAdminPage = lazy(() => import("./admin/pages/SpanishSchoolPage"));
-const LimpiezasPage        = lazy(() => import("./admin/pages/LimpiezasPage"));
-const BilletesPage         = lazy(() => import("./admin/pages/BilletesPage"));
-const MarketingPage        = lazy(() => import("./admin/pages/MarketingPage"));
-const MarketingCalendarPage = lazy(() => import("./admin/pages/MarketingCalendarPage"));
-const PlanillasPage        = lazy(() => import("./admin/pages/PlanillasPage"));
-const ImpuestosPage        = lazy(() => import("./admin/pages/ImpuestosPage"));
-const PreciosPage          = lazy(() => import("./admin/pages/PreciosPage"));
+const DashboardPage = lazy(() => import("./admin/pages/DashboardPage"));
+const CalendarPage = lazy(() => import("./admin/pages/CalendarPage"));
+const TransactionsPage = lazy(() => import("./admin/pages/TransactionsPage"));
+const PettyCashPage = lazy(() => import("./admin/pages/PettyCashPage"));
+const ShiftPage = lazy(() => import("./admin/pages/ShiftPage"));
+const ReportesPage = lazy(() => import("./admin/pages/ReportesPage"));
+const HistorialPage = lazy(() => import("./admin/pages/HistorialPage"));
+const GuestDatabasePage = lazy(() => import("./admin/pages/GuestDatabasePage"));
+const VitrinaPage = lazy(() => import("./admin/pages/VitrinaPage"));
+const SpanishSchoolAdminPage = lazy(
+  () => import("./admin/pages/SpanishSchoolPage"),
+);
+const LimpiezasPage = lazy(() => import("./admin/pages/LimpiezasPage"));
+const BilletesPage = lazy(() => import("./admin/pages/BilletesPage"));
+const MarketingPage = lazy(() => import("./admin/pages/MarketingPage"));
+const MarketingCalendarPage = lazy(
+  () => import("./admin/pages/MarketingCalendarPage"),
+);
+const PlanillasPage = lazy(() => import("./admin/pages/PlanillasPage"));
+const ImpuestosPage = lazy(() => import("./admin/pages/ImpuestosPage"));
+const PreciosPage = lazy(() => import("./admin/pages/PreciosPage"));
 
 // Spinner shown while lazy page loads
 function PageSpinner() {
@@ -76,23 +80,26 @@ function AdminApp() {
     <AdminLayout>
       <Suspense fallback={<PageSpinner />}>
         <Routes>
-          <Route index                          element={<DashboardPage />} />
-          <Route path="calendar"                element={<CalendarPage />} />
-          <Route path="transactions"            element={<TransactionsPage />} />
-          <Route path="petty-cash"              element={<PettyCashPage />} />
-          <Route path="shift"                   element={<ShiftPage />} />
-          <Route path="reportes"                element={<ReportesPage />} />
-          <Route path="historial"               element={<HistorialPage />} />
-          <Route path="guests"                  element={<GuestDatabasePage />} />
-          <Route path="vitrina"                 element={<VitrinaPage />} />
-          <Route path="spanish"                 element={<SpanishSchoolAdminPage />} />
-          <Route path="limpiezas"               element={<LimpiezasPage />} />
-          <Route path="billetes"                element={<BilletesPage />} />
-          <Route path="marketing"               element={<MarketingPage />} />
-          <Route path="marketing-calendar"      element={<MarketingCalendarPage />} />
-          <Route path="planillas"               element={<PlanillasPage />} />
-          <Route path="impuestos"               element={<ImpuestosPage />} />
-          <Route path="precios"                 element={<PreciosPage />} />
+          <Route index element={<DashboardPage />} />
+          <Route path="calendar" element={<CalendarPage />} />
+          <Route path="transactions" element={<TransactionsPage />} />
+          <Route path="petty-cash" element={<PettyCashPage />} />
+          <Route path="shift" element={<ShiftPage />} />
+          <Route path="reportes" element={<ReportesPage />} />
+          <Route path="historial" element={<HistorialPage />} />
+          <Route path="guests" element={<GuestDatabasePage />} />
+          <Route path="vitrina" element={<VitrinaPage />} />
+          <Route path="spanish" element={<SpanishSchoolAdminPage />} />
+          <Route path="limpiezas" element={<LimpiezasPage />} />
+          <Route path="billetes" element={<BilletesPage />} />
+          <Route path="marketing" element={<MarketingPage />} />
+          <Route
+            path="marketing-calendar"
+            element={<MarketingCalendarPage />}
+          />
+          <Route path="planillas" element={<PlanillasPage />} />
+          <Route path="impuestos" element={<ImpuestosPage />} />
+          <Route path="precios" element={<PreciosPage />} />
         </Routes>
       </Suspense>
     </AdminLayout>
@@ -105,16 +112,16 @@ export default function App() {
       <BrowserRouter>
         <Routes>
           {/* Public site */}
-          <Route path="/"               element={<HomePage />} />
-          <Route path="/booking"        element={<BookingPage />} />
-          <Route path="/gallery"        element={<GalleryPage />} />
-          <Route path="/conference"     element={<ConferencePage />} />
-          <Route path="/rooftop"        element={<RooftopPage />} />
+          <Route path="/" element={<HomePage />} />
+          <Route path="/booking" element={<BookingPage />} />
+          <Route path="/gallery" element={<GalleryPage />} />
+          <Route path="/conference" element={<ConferencePage />} />
+          <Route path="/rooftop" element={<RooftopPage />} />
           <Route path="/spanish-school" element={<SpanishSchoolPage />} />
-          <Route path="/privacy"        element={<PrivacyPage />} />
+          <Route path="/privacy" element={<PrivacyPage />} />
 
           {/* Admin */}
-          <Route path="/admin/login"  element={<LoginPage />} />
+          <Route path="/admin/login" element={<LoginPage />} />
           <Route
             path="/admin/*"
             element={
