@@ -8,15 +8,6 @@ import CustomSelect from '../components/CustomSelect';
 
 const SHIFTS: ShiftType[] = ['MAÑANA', 'TARDE', 'NOCHE'];
 
-const LINEN_ITEMS = [
-  { key: 'linen_towels_large',  label: 'Toallas grandes',   emoji: '🛁' },
-  { key: 'linen_towels_small',  label: 'Toallas pequeñas',  emoji: '🧻' },
-  { key: 'linen_sheets_large',  label: 'Sábanas grandes',   emoji: '🛏️' },
-  { key: 'linen_sheets_small',  label: 'Sábanas pequeñas',  emoji: '🛏️' },
-  { key: 'linen_pillowcases',   label: 'Fundas',            emoji: '💤' },
-  { key: 'linen_tablecloths',   label: 'Manteles',          emoji: '🍽️' },
-  { key: 'linen_duvets',        label: 'Edredones',         emoji: '❄️' },
-] as const;
 
 function linenTotal(r: { linen_towels_large?: number; linen_towels_small?: number; linen_sheets_large?: number; linen_sheets_small?: number; linen_pillowcases?: number; linen_tablecloths?: number; linen_duvets?: number }): number {
   return (r.linen_towels_large ?? 0) + (r.linen_towels_small ?? 0) + (r.linen_sheets_large ?? 0) +
