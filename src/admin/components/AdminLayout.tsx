@@ -3,7 +3,7 @@ import type React from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import {
   LayoutDashboard, CalendarDays, ArrowLeftRight,
-  ClipboardList, Users, LogOut, Menu, X, Hotel, BarChart2, History, BookUser, ShoppingBag, GraduationCap, Sparkles, TrendingUp, Wallet, Receipt, CalendarCheck,
+  ClipboardList, Users, LogOut, Menu, X, Hotel, BarChart2, History, BookUser, ShoppingBag, Sparkles, TrendingUp, Wallet, Receipt, CalendarCheck,
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 
