@@ -621,33 +621,6 @@ export default function ShiftPage() {
                 </button>
               </div>
 
-              {/* Ropa doblada */}
-              <div>
-                <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">🧺 Ropa doblada en este turno</p>
-                <div className="grid grid-cols-2 gap-2">
-                  {LINEN_ITEMS.map(({ key, label, emoji }) => (
-                    <div key={key} className="bg-purple-50 rounded-xl p-3 flex items-center gap-2">
-                      <span className="text-base">{emoji}</span>
-                      <div className="flex-1 min-w-0">
-                        <p className="text-[10px] font-bold text-purple-600 uppercase tracking-wider truncate">{label}</p>
-                        <input
-                          type="number"
-                          min={0}
-                          data-testid={`linen-${key.replace('linen_', '').replace(/_/g, '-')}`}
-                          value={(form as any)[key]}
-                          onChange={e => setForm(f => ({ ...f, [key]: e.target.value }))}
-                          className="w-full border border-purple-200 rounded-lg px-2 py-1 text-sm font-bold text-purple-900 focus:outline-none focus:ring-2 focus:ring-purple-400 bg-white mt-1"
-                        />
-                      </div>
-                    </div>
-                  ))}
-                </div>
-                {LINEN_ITEMS.reduce((s, { key }) => s + (parseInt((form as any)[key]) || 0), 0) > 0 && (
-                  <p className="text-xs text-purple-600 font-bold mt-2 text-right">
-                    Total: {LINEN_ITEMS.reduce((s, { key }) => s + (parseInt((form as any)[key]) || 0), 0)} piezas
-                  </p>
-                )}
-              </div>
 
               {formError && (
                 <p className="text-red-500 text-sm bg-red-50 rounded-lg px-3 py-2">{formError}</p>

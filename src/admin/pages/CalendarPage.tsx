@@ -2405,7 +2405,7 @@ export default function CalendarPage() {
                   <div className="rounded-xl border border-gray-200 p-3 space-y-2">
                     <label className="flex items-center gap-2 cursor-pointer select-none">
                       <input type="checkbox" checked={form.is_empresa}
-                        onChange={e => setForm(f => ({ ...f, is_empresa: e.target.checked, ...(e.target.checked ? { guest_purpose: 'Trabajo' } : {}) }))}
+                        onChange={e => setForm(f => ({ ...f, is_empresa: e.target.checked }))}
                         className="w-4 h-4 rounded accent-indigo-500" />
                       <Building2 size={15} className="text-indigo-600" />
                       <span className="text-sm font-medium text-gray-700">Es Empresa</span>
@@ -2681,7 +2681,7 @@ export default function CalendarPage() {
                         </div>
                         <label className="flex items-center gap-2 cursor-pointer select-none">
                           <input type="checkbox" checked={form.is_empresa}
-                            onChange={e => setForm(f => ({ ...f, is_empresa: e.target.checked, ...(e.target.checked ? { guest_purpose: 'Trabajo' } : {}) }))}
+                            onChange={e => setForm(f => ({ ...f, is_empresa: e.target.checked }))}
                             className="w-4 h-4 rounded accent-blue-500" />
                           <Building2 size={15} className="text-blue-600" />
                           <span className="text-sm font-medium text-gray-700">Es Empresa</span>
@@ -3027,7 +3027,7 @@ export default function CalendarPage() {
                       <div className="rounded-xl border border-gray-200 p-3 space-y-2">
                         <label className="flex items-center gap-2 cursor-pointer select-none">
                           <input type="checkbox" checked={form.is_empresa}
-                            onChange={e => setForm(f => ({ ...f, is_empresa: e.target.checked, ...(e.target.checked ? { guest_purpose: 'Trabajo' } : {}) }))}
+                            onChange={e => setForm(f => ({ ...f, is_empresa: e.target.checked }))}
                             className="w-4 h-4 rounded accent-blue-500" />
                           <Building2 size={15} className="text-blue-600" />
                           <span className="text-sm font-medium text-gray-700">Es Empresa</span>
