@@ -9,21 +9,15 @@ import DatePicker from '../components/DatePicker';
 
 type Location =
   | 'vitrina_recepcion'
-  | 'vitrina_ascensor'
-  | 'baulera1'
-  | 'baulera2'
-  | 'baulera3'
   | 'cocina'
-  | 'administracion';
+  | 'deposito'
+  | 'recepcion_administracion';
 
 const LOCATIONS: { value: Location; label: string }[] = [
-  { value: 'vitrina_recepcion', label: 'Vitrina Recepción' },
-  { value: 'vitrina_ascensor',  label: 'Vitrina Ascensor' },
-  { value: 'baulera1',          label: 'Baulera 1' },
-  { value: 'baulera2',          label: 'Baulera 2' },
-  { value: 'baulera3',          label: 'Baulera 3' },
-  { value: 'cocina',            label: 'Cocina' },
-  { value: 'administracion',    label: 'Administración' },
+  { value: 'vitrina_recepcion',      label: 'Vitrina Recepción' },
+  { value: 'cocina',                 label: 'Cocina' },
+  { value: 'deposito',               label: 'Depósito' },
+  { value: 'recepcion_administracion', label: 'Recepción/Administración' },
 ];
 
 const LOC_LABEL: Record<string, string> = Object.fromEntries(

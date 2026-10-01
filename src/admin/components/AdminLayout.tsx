@@ -25,7 +25,6 @@ const navItems: NavItem[] = [
   { to: '/admin/reportes',     icon: BarChart2,       label: 'Reportes' },
   { to: '/admin/precios',      icon: TrendingUp,      label: 'Precios',            adminOnly: true },
   { to: '/admin/historial',    icon: History,         label: 'Historial',          adminOnly: true },
-  { to: '/admin/spanish',      icon: GraduationCap,   label: 'Spanish School' },
   // Marketing: visible only to admin and marketing role
   { to: '/admin/marketing',          icon: TrendingUp,    label: 'Marketing',           roles: ['admin', 'marketing'] },
   { to: '/admin/marketing-calendar', icon: CalendarCheck, label: 'Calendario Tareas',   roles: ['admin', 'marketing'] },
