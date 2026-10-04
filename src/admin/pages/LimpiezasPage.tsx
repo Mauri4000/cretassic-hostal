@@ -14,13 +14,11 @@ const STAFF_STYLE: Record<Staff, { pill: string; btn: string }> = {
 
 const ROOM_TASKS  = ['Limpieza', 'Habilitación'] as const;
 const EXTRA_TASKS = [
-  'Ordenar Baulera 1', 'Ordenar Baulera 2', 'Ordenar Baulera 3',
-  'Lavado Edredon', 'Lavado Toallas',
+  'Lavado Edredon', 'Lavado Toallas', 'Lavado Sábanas',
   'Trapeado pasillos', 'Trapeado gradas',
-  'Limpieza ascensor', 'Limpieza vidrios', 'Desempolvado',
+  'Limpieza vidrios', 'Desempolvado',
   'Lavado alfombras baño', 'Limpieza Cocina', 'Limpieza Comedor',
-  'Lavado Manteles', 'Lavado colchas',
-  'Ayudas en Cretassic Hostal',
+  'Lavado Manteles', 'Lavado colchas', 'Limpieza terraza',
 ] as const;
 
 const MONTH_NAMES = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
