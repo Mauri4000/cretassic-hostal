@@ -3,7 +3,7 @@ import { MapPin, Phone, Mail, Clock, MessageCircle } from "lucide-react";
 import { motion } from "framer-motion";
 
 const WA_NUMBER = "59178637098";
-const EMAIL = "bastillehotelsucre@gmail.com";
+const EMAIL = "cretassichostal@gmail.com";
 // Address parts translated via i18n
 
 const MAPS_EMBED =

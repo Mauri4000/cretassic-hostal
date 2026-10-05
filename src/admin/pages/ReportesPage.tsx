@@ -45,11 +45,9 @@ async function loadXLSX() {
   return (window as any).XLSX;
 }
 async function loadPdfMake() {
-  // Load pdfmake core + fonts in parallel
-  await Promise.all([
-    loadScript('https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js'),
-    loadScript('https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js'),
-  ]);
+  // vfs_fonts.js depends on pdfmake being loaded first — load in series
+  await loadScript('https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js');
+  await loadScript('https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js');
   return (window as any).pdfMake;
 }
 async function imgToBase64(url: string): Promise<string> {
@@ -158,7 +156,7 @@ export default function ReportesPage() {
 
   // Tabla SIN (Facturas)
   const HOTEL_NIT  = '7503036010';
-  const HOTEL_NAME = 'BASTILLE HOTEL';
+  const HOTEL_NAME = 'CRETASSIC HOSTAL';
   const HOTEL_NAT  = 'BOLIVIANO';
   const HOTEL_CUF  = '20160E9159A56CFA90679109B6747A56E5B3D26F04809F50C4A9FBAF74';
   const [sinDesde,   setSinDesde]   = useState('');
@@ -633,9 +631,9 @@ export default function ReportesPage() {
                         widths: [80, 105],
                         body: [
                           [c7b('Ciudad o Localidad'), c7('SUCRE')],
-                          [c7b('Establecimiento'),    c7('HOTEL BASTILLE')],
+                          [c7b('Establecimiento'),    c7('CRETASSIC HOSTAL')],
                           [c7b('Categoría'),          c7('***')],
-                          [c7b('Dirección'),          c7('A. Arce 247')],
+                          [c7b('Dirección'),          c7('Av. Hernando Siles 901')],
                         ],
                       },
                       layout: { hLineWidth: () => 0.45, vLineWidth: () => 0.45, hLineColor: () => '#555', vLineColor: () => '#555', paddingTop: () => 2, paddingBottom: () => 2, paddingLeft: () => 2, paddingRight: () => 2 },
@@ -1190,7 +1188,7 @@ td{padding:3px 6px;border-bottom:1px solid #f3f4f6}
 <button class="print-btn no-print" onclick="window.print()">Imprimir / PDF</button>
 <div style="text-align:center;margin-bottom:4px">
   <div style="font-size:9px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:#666">REPORTE FAMILIAR</div>
-  <h1 style="font-size:28px;font-weight:900;letter-spacing:1px;line-height:1">BASTILLE HOTEL</h1>
+  <h1 style="font-size:28px;font-weight:900;letter-spacing:1px;line-height:1">CRETASSIC HOSTAL</h1>
 </div>
 <div class="sub" style="text-align:center">${monthLabel.toUpperCase()}</div>
 
@@ -1620,7 +1618,7 @@ ${mktTop3.map((p:any,i:number)=>`<div class="top3-card" style="border-top-color:
       if (logoDer) rightStack.push({ image: logoDer, fit: [90, 37], alignment: 'right' });
       else         rightStack.push({ text: 'Secretaría de\nCulturas y Turismo', fontSize: 7, color: GRAY, alignment: 'right' });
       rightStack.push({ text: 'Categoría:',         fontSize: 9, color: GRAY, alignment: 'right', margin: [0,2,0,0] });
-      rightStack.push({ text: 'Teléfono: 6463516', fontSize: 9, color: GRAY, alignment: 'right' });
+      rightStack.push({ text: 'Teléfono: 6456250', fontSize: 9, color: GRAY, alignment: 'right' });
 
       content.push({
         columns: [
@@ -1633,13 +1631,13 @@ ${mktTop3.map((p:any,i:number)=>`<div class="top3-card" style="border-top-color:
               {
                 columns: [
                   { text: 'Establecimiento:', fontSize: 9, color: GRAY, width: 3.3*CM },
-                  { text: 'BASTILLE HOTEL',   fontSize: 9, color: GRAY, width: '*' },
+                  { text: 'CRETASSIC HOSTAL', fontSize: 9, color: GRAY, width: '*' },
                 ], margin: [0, 3, 0, 0],
               },
               {
                 columns: [
                   { text: 'Dirección:', fontSize: 9, color: GRAY, width: 3.3*CM },
-                  { text: 'Calle Aniceto Arce 247', fontSize: 9, color: GRAY, width: '*' },
+                  { text: 'Av. Hernando Siles 901', fontSize: 9, color: GRAY, width: '*' },
                 ],
               },
             ],
@@ -2020,7 +2018,7 @@ ${mktTop3.map((p:any,i:number)=>`<div class="top3-card" style="border-top-color:
           )}
         </div>
         <div className="px-6 pb-3 text-xs text-gray-400">
-          NIT Bastille: <span className="font-mono font-semibold text-gray-600">7503036010</span> · Solo incluye reservas con factura emitida en ese rango de Nº SIAAT
+          NIT Cretassic: <span className="font-mono font-semibold text-gray-600">7503036010</span> · Solo incluye reservas con factura emitida en ese rango de Nº SIAAT
         </div>
 
         {/* Preview table */}

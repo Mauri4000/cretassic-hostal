@@ -215,5 +215,9 @@
       "pets": "Animaux",
       "hallway": "Couloir"
     }
+  },
+  "currency": {
+    "label": "Taux de change",
+    "parallel": "parallèle"
   }
 }

@@ -50,7 +50,7 @@ export default function LoginPage() {
                 value={email}
                 onChange={e => setEmail(e.target.value)}
                 required
-                placeholder="mauri@bastillehotel.bo"
+                placeholder="mauri@cretassichostal.bo"
                 className="w-full bg-gray-700 text-white rounded-lg px-4 py-2.5 text-sm border border-gray-600 focus:outline-none focus:border-amber-400 placeholder-gray-500"
               />
             </div>

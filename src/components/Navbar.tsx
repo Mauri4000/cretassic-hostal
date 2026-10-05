@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
-import { Menu, X, Bird } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
 
 const languages = [
@@ -10,13 +10,11 @@ const languages = [
   { code: "fr", label: "FR" },
 ];
 
-type NavLink = { key: string; href: string; bird?: boolean };
+type NavLink = { key: string; href: string };
 
 const navLinks: NavLink[] = [
-  { key: "rooms",        href: "#rooms" },
-  { key: "conference",   href: "/conference" },
-  { key: "rooftop",      href: "/rooftop", bird: true },
-  { key: "spanishSchool", href: "/spanish-school" },
+  { key: "rooms",   href: "#rooms" },
+  { key: "gallery", href: "/gallery" },
 ];
 
 export default function Navbar() {
@@ -38,15 +36,8 @@ export default function Navbar() {
     }
   };
 
-  const linkLabel = ({ key, bird }: NavLink) => (
+  const linkLabel = ({ key }: NavLink) => (
     <span className="flex items-center gap-1.5">
-      {bird && (
-        <Bird
-          size={14}
-          className="shrink-0"
-          style={{ color: "#f4a26b" }} // warm salmon matching the logo
-        />
-      )}
       {t(`nav.${key}`)}
     </span>
   );

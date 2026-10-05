@@ -215,5 +215,9 @@
       "pets": "Perritos",
       "hallway": "Pasillo"
     }
+  },
+  "currency": {
+    "label": "Cambio hoy",
+    "parallel": "paralelo"
   }
 }

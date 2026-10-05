@@ -9,9 +9,6 @@ import BookingSearch from "./components/BookingSearch";
 import Contact from "./components/Contact";
 import BookingPage from "./pages/BookingPage";
 import GalleryPage from "./pages/GalleryPage";
-import ConferencePage from "./pages/ConferencePage";
-import RooftopPage from "./pages/RooftopPage";
-import SpanishSchoolPage from "./pages/SpanishSchoolPage";
 import PrivacyPage from "./pages/PrivacyPage";
 import Footer from "./components/Footer";
 import type { BookingFilters } from "./components/BookingSearch";
@@ -32,9 +29,6 @@ const ReportesPage = lazy(() => import("./admin/pages/ReportesPage"));
 const HistorialPage = lazy(() => import("./admin/pages/HistorialPage"));
 const GuestDatabasePage = lazy(() => import("./admin/pages/GuestDatabasePage"));
 const VitrinaPage = lazy(() => import("./admin/pages/VitrinaPage"));
-const SpanishSchoolAdminPage = lazy(
-  () => import("./admin/pages/SpanishSchoolPage"),
-);
 const LimpiezasPage = lazy(() => import("./admin/pages/LimpiezasPage"));
 const BilletesPage = lazy(() => import("./admin/pages/BilletesPage"));
 const MarketingPage = lazy(() => import("./admin/pages/MarketingPage"));
@@ -89,7 +83,6 @@ function AdminApp() {
           <Route path="historial" element={<HistorialPage />} />
           <Route path="guests" element={<GuestDatabasePage />} />
           <Route path="vitrina" element={<VitrinaPage />} />
-          <Route path="spanish" element={<SpanishSchoolAdminPage />} />
           <Route path="limpiezas" element={<LimpiezasPage />} />
           <Route path="billetes" element={<BilletesPage />} />
           <Route path="marketing" element={<MarketingPage />} />
@@ -115,9 +108,6 @@ export default function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/booking" element={<BookingPage />} />
           <Route path="/gallery" element={<GalleryPage />} />
-          <Route path="/conference" element={<ConferencePage />} />
-          <Route path="/rooftop" element={<RooftopPage />} />
-          <Route path="/spanish-school" element={<SpanishSchoolPage />} />
           <Route path="/privacy" element={<PrivacyPage />} />
 
           {/* Admin */}

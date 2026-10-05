@@ -6,7 +6,7 @@ import { ArrowLeft, MapPin, Mail, MessageCircle, Users, ChevronLeft, ChevronRigh
 import { rooms as allRooms } from "../data/rooms";
 
 const WA_NUMBER = "59178637098";
-const EMAIL = "bastillehotelsucre@gmail.com";
+const EMAIL = "cretassichostal@gmail.com";
 const ADDRESS = "Aniceto Arce 247, Sucre, Bolivia";
 const PET_FEE_USD = 3;
 
@@ -503,7 +503,7 @@ export default function BookingPage() {
     const petLine = hasPet && petFeeTotal > 0 ? ` | Pet: +$${petFeeTotal} USD` : "";
     const childLine = children > 0 ? ` + ${children} children` : "";
     return [
-      `*BASTILLE HOTEL — Booking Request*`,
+      `*CRETASSIC HOSTAL — Booking Request*`,
       ``,
       `*Guest:* ${form.firstName} ${form.lastName}`,
       `*Nationality:* ${form.nationality} | *Doc:* ${form.docType} ${form.docNumber}`,
@@ -827,11 +827,11 @@ export default function BookingPage() {
                     <MessageCircle size={14} className="text-green-500 shrink-0" />+591 78637098
                   </a>
                 </div>
-                <a href="https://www.google.com/maps/search/Bastille+Hotel+Sucre+Bolivia"
+                <a href="https://www.google.com/maps/search/Cretassic+Hostal+Sucre+Bolivia"
                   target="_blank" rel="noopener noreferrer" data-testid="booking-mini-map"
                   className="rounded-xl overflow-hidden border border-gray-200 hover:border-amber-400 transition-colors block"
                   title="Open in Google Maps">
-                  <iframe src="https://maps.google.com/maps?q=Bastille+Hotel+Sucre+Bolivia&output=embed&z=17"
+                  <iframe src="https://maps.google.com/maps?q=Cretassic+Hostal+Sucre+Bolivia&output=embed&z=17"
                     width="100%" height="160"
                     style={{ border: 0, pointerEvents: "none", display: "block" }}
                     loading="lazy" title="Cretassic Hostal location" />

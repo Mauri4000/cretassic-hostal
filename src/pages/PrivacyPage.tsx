@@ -124,8 +124,8 @@ export default function PrivacyPage() {
             <Mail className="text-amber-400 mt-0.5 shrink-0" size={18} />
             <p className="text-gray-300 text-sm">
               {lang === 'es' ? 'Para solicitar la eliminación de tus datos, escríbenos a: ' : lang === 'fr' ? 'Pour demander la suppression de vos données, écrivez-nous à : ' : 'To request data deletion, contact us at: '}
-              <a href="mailto:info@bastillehotelsucre.com" className="text-amber-400 hover:underline">
-                info@bastillehotelsucre.com
+              <a href="mailto:cretassichostal@gmail.com" className="text-amber-400 hover:underline">
+                cretassichostal@gmail.com
               </a>
             </p>
           </div>
@@ -187,8 +187,8 @@ export default function PrivacyPage() {
           <div className="text-center py-8">
             <p className="text-gray-500 text-sm">
               {lang === 'es' ? '¿Preguntas sobre esta política?' : lang === 'fr' ? 'Des questions sur cette politique ?' : 'Questions about this policy?'}{' '}
-              <a href="mailto:info@bastillehotelsucre.com" className="text-amber-400 hover:underline">
-                info@bastillehotelsucre.com
+              <a href="mailto:cretassichostal@gmail.com" className="text-amber-400 hover:underline">
+                cretassichostal@gmail.com
               </a>
             </p>
           </div>

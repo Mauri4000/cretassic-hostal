@@ -52,6 +52,7 @@ export default function Hero() {
           {t("hero.cta")}
         </a>
       </motion.div>
+
     </section>
   );
 }

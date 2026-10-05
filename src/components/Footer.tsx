@@ -1,18 +1,15 @@
 import { Link } from 'react-router-dom';
 
 const WHATSAPP_URL  = 'https://wa.me/59178637098';
-const INSTAGRAM_URL = 'https://www.instagram.com/bastillehotel?igsh=eWg2ZDY3ZGR6bjlq';
-const FACEBOOK_URL  = 'https://www.facebook.com/share/1UB656UB1k/?mibextid=wwXIfr';
-const TIKTOK_URL    = 'https://www.tiktok.com/@bastille.hotel?_r=1&_t=ZS-98UfxoLt3Yr';
+const INSTAGRAM_URL = 'https://www.instagram.com/cretassichostal';
+const FACEBOOK_URL  = 'https://www.facebook.com/cretassichostal';
+const TIKTOK_URL    = 'https://www.tiktok.com/@cretassichostal';
 
 const navLinks = [
-  { label: 'Inicio',         to: '/' },
-  { label: 'Habitaciones',   to: '/#rooms' },
-  { label: 'Galería',        to: '/gallery' },
-  { label: 'Conferencias',   to: '/conference' },
-  { label: 'Rooftop',        to: '/rooftop' },
-  { label: 'Spanish School', to: '/spanish-school' },
-  { label: 'Contacto',       to: '/#contact' },
+  { label: 'Inicio',       to: '/' },
+  { label: 'Habitaciones', to: '/#rooms' },
+  { label: 'Galería',      to: '/gallery' },
+  { label: 'Contacto',     to: '/#contact' },
 ];
 
 const legalLinks = [
