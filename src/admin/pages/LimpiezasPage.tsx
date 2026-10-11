@@ -14,7 +14,8 @@ const STAFF_STYLE: Record<Staff, { pill: string; btn: string }> = {
 
 const ROOM_TASKS  = ['Limpieza', 'Habilitación'] as const;
 const EXTRA_TASKS = [
-  'Administración', 'Dormitorio del personal',
+  'Administración', 'Limpieza de Administración',
+  'Dormitorio del personal', 'Limpieza de cuarto del personal',
   'Encerado de pisos', 'Jaboncillos', 'Shampoo',
   'Lavado Edredon', 'Lavado de frazadas', 'Lavado Sábanas', 'Lavado Toallas',
   'Lavado de Vajilla', 'Lavado Manteles', 'Lavado colchas',
