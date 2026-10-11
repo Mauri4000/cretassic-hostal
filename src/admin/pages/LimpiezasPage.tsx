@@ -14,11 +14,15 @@ const STAFF_STYLE: Record<Staff, { pill: string; btn: string }> = {
 
 const ROOM_TASKS  = ['Limpieza', 'Habilitación'] as const;
 const EXTRA_TASKS = [
-  'Lavado Edredon', 'Lavado Toallas', 'Lavado Sábanas',
-  'Trapeado pasillos', 'Trapeado gradas',
+  'Administración', 'Dormitorio del personal',
+  'Encerado de pisos', 'Jaboncillos', 'Shampoo',
+  'Lavado Edredon', 'Lavado de frazadas', 'Lavado Sábanas', 'Lavado Toallas',
+  'Lavado de Vajilla', 'Lavado Manteles', 'Lavado colchas',
+  'Lavado alfombras baño',
+  'Limpieza Cocina', 'Limpieza Comedor', 'Limpieza terraza',
+  'Limpieza pasillos y gradas', 'Limpieza recepción', 'Limpieza del garaje',
   'Limpieza vidrios', 'Desempolvado',
-  'Lavado alfombras baño', 'Limpieza Cocina', 'Limpieza Comedor',
-  'Lavado Manteles', 'Lavado colchas', 'Limpieza terraza',
+  'Montaje del desayuno',
 ] as const;
 
 const MONTH_NAMES = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
