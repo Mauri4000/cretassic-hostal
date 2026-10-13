@@ -1,6 +1,7 @@
 import { useEffect, useState, useCallback, useRef, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Plus, X, TrendingUp, TrendingDown, DollarSign, Filter, Trash2, Pencil, CalendarDays } from 'lucide-react';
+import { Plus, X, TrendingUp, TrendingDown, DollarSign, Filter, Trash2, Pencil, CalendarDays, Upload } from 'lucide-react';
+import * as XLSX from 'xlsx';
 import { supabase } from '../../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
 import type { Transaction, TransactionType, CajaType } from '../types';
@@ -10,6 +11,94 @@ import DatePicker from '../components/DatePicker';
 import TimePicker from '../components/TimePicker';
 import { logActivity } from '../../lib/logActivity';
 import VitrinaProductPicker from '../components/VitrinaProductPicker';
+
+// ── BNB Import ────────────────────────────────────────────────────────────────
+interface BnbRow {
+  fecha: string;
+  hora: string;
+  referencia: string;
+  codigo: string;
+  monto: number;
+  cuentaDestino: string;
+  nombreDestino: string;
+  category: string;
+  manualCategory: string;
+  needsReview: boolean;
+}
+
+const BNB_CAT_MAP: Array<{ kw: string[]; cat: string }> = [
+  { kw: ['panel sol', 'fuga', 'soldador', 'chapa puer', 'plomero', 'electric', 'pintura', 'cemento', 'ladrillo', 'manten', 'reparac', 'instalac', 'carpinter', 'gasfiter', 'techado', 'grifo', 'tuberia', 'tubería', 'pintor', 'yeso', 'ceramica', 'cerámica', 'candado', 'chapa', 'llave'], cat: 'B09-MANTENIMIENTO DE HOTEL' },
+  { kw: ['escuela', 'español', 'juegos de', 'jazmine', 'jazmin'], cat: 'ESCUELA ESPAÑOL' },
+  { kw: ['halloween', 'disfraz', 'calavera', 'yurex'], cat: 'HALLOWEEN' },
+  { kw: ['navidad', 'arbol navid', 'adorno navid', 'villancico'], cat: 'NAVIDAD' },
+  { kw: ['pan molde', 'pan de', ' pan ', 'platano', 'plátano', 'naranja', 'queso', 'yogurt', 'frutilla', 'leche', 'huevo', 'hierba bue', 'cafe pab', 'café', 'verdura', 'fruta', 'tomate', 'cebolla', 'zanahoria', 'mantequi', 'mermelad', 'compra mer', 'mercado', 'canasta', 'avena', 'gelatina', 'azucar', 'azúcar', 'aceite', 'arroz', 'harina', 'papa', 'carne', 'pollo', 'durazno', 'manzana', 'piña', 'sandia', 'sandía', 'mango', 'uva'], cat: 'B01-DESAYUNOS DE HOTEL' },
+  { kw: ['sabana', 'sábana', 'toalla', 'almohad', 'edredon', 'edredón', 'frazada', 'colchon', 'colchón', 'cortina', 'cojin', 'cojín', 'suministro', 'vajilla', 'plato', 'vaso', 'taza', 'cubierto'], cat: 'B02-SUMINISTROS DE HOTEL' },
+  { kw: ['elapas', 'elfec', 'agua potabl', 'internet', 'entel', 'tigo', 'viva', 'telefono', 'teléfono', 'gas domici'], cat: 'B03-SERVICIOS BÁSICOS' },
+  { kw: ['shampoo', 'papel higi', 'ambientad', 'detergente', 'cloro', 'escoba', 'trapeador', 'desinfect', 'jabon', 'jabón', 'limpiador', 'bolsa basur', 'guante', 'esponja', 'virutilla'], cat: 'B04-INSUMOS DE LIMPIEZA' },
+  { kw: ['camarera', 'adelanto', 'sueldo', 'salario', 'jornal', 'pago trabaj', 'brayan', 'romina'], cat: 'B05-SUELDOS Y SALARIOS' },
+  { kw: ['publicidad', 'facebook', 'meta', 'google', 'instagram', 'marketing', 'anuncio'], cat: 'B07-PUBLICIDAD Y MARKETING' },
+  { kw: ['gastos var', 'varios', 'miscelaneo'], cat: 'B08-GASTOS VARIOS' },
+  { kw: ['refriger', 'snack person', 'almuerzo pers'], cat: 'B10-REFRIGERIOS AL PERSONAL' },
+  { kw: ['venta al p', 'vitrina', 'memphis', 'menphis', 'distribuid', 'gaseosa', 'agua mineral', 'chocolat', 'dulce', 'caramelo', 'chicle', 'galeta', 'galleta'], cat: 'B11-SUMINISTROS DE VITRINAS' },
+  { kw: ['servicio ext', 'lavander', 'tintorer'], cat: 'B12-SERVICIOS EXTRA DE HOTEL' },
+  { kw: ['compra de fac', 'factura fiscal', 'impuesto', 'siat', 'nit', 'iva ret'], cat: 'B13-GASTOS FISCALES' },
+  { kw: ['compra factur', 'factura'], cat: 'B16-COMPRA DE FACTURA' },
+  { kw: ['familiar', 'familia', 'davalos', 'pobreza', 'compras la'], cat: 'GASTOS FAMILIARES' },
+  { kw: ['retiro sonia', 'doña sonia', 'sonia'], cat: 'RETIROS DOÑA SONIA' },
+];
+
+function inferCategory(ref: string, nombreDestino: string): string {
+  const haystack = (' ' + ref + ' ' + nombreDestino + ' ').toLowerCase();
+  for (const { kw, cat } of BNB_CAT_MAP) {
+    if (kw.some(k => haystack.includes(k))) return cat;
+  }
+  return '';
+}
+
+function parseBnbWorkbook(ab: ArrayBuffer): BnbRow[] {
+  const wb = XLSX.read(ab, { type: 'array' });
+  const ws = wb.Sheets[wb.SheetNames[0]];
+  const raw = XLSX.utils.sheet_to_json<string[]>(ws, { header: 1 }) as string[][];
+
+  type RawEntry = { idx: number; ref: string; codigo: string; monto: number; fecha: string; hora: string; adicional: string };
+  const allDebits: RawEntry[] = [];
+  for (let i = 2; i < raw.length; i++) {
+    const r = raw[i];
+    if (!r || r.length < 8) continue;
+    const debitoRaw = String(r[7] ?? '').replace(/,/g, '').trim();
+    const monto = parseFloat(debitoRaw);
+    if (!debitoRaw || isNaN(monto)) continue;
+    allDebits.push({ idx: i, ref: String(r[4] ?? '').trim(), codigo: String(r[5] ?? '').trim(), monto, fecha: String(r[0] ?? '').trim(), hora: String(r[1] ?? '').trim(), adicional: String(r[10] ?? '') });
+  }
+
+  const reversedCodigos = new Set<string>();
+  for (const a of allDebits) {
+    if (a.monto < 0) {
+      const pair = allDebits.find(b => b.monto === -a.monto && b.ref === a.ref && b.codigo !== a.codigo);
+      if (pair) { reversedCodigos.add(a.codigo); reversedCodigos.add(pair.codigo); }
+    }
+  }
+
+  const rows: BnbRow[] = [];
+  for (const entry of allDebits) {
+    if (entry.monto <= 0) continue;
+    if (reversedCodigos.has(entry.codigo)) continue;
+    const { ref, codigo, monto, fecha: fechaRaw, hora: horaRaw, adicional } = entry;
+    const nombreMatch = adicional.match(/Nombre[:\s]+([^.]+)/i);
+    const nombreDestino = nombreMatch ? nombreMatch[1].trim() : '';
+    const cuentaMatch = adicional.match(/Cuenta\s+Destino[:\s]+([0-9]+)/i) ?? adicional.match(/Cuenta[:\s]+([0-9]+)/i);
+    const cuentaDestino = cuentaMatch ? cuentaMatch[1].trim() : '';
+    const datoMatch = adicional.match(/Dato\s+Adicional[:\s]+([^.]+)/i);
+    const datoAdicional = datoMatch ? datoMatch[1].trim() : '';
+    const refDisplay = datoAdicional || ref;
+    const category = inferCategory(refDisplay, nombreDestino);
+    const [d, m, y] = fechaRaw.split('/');
+    const fecha = y && m && d ? `${y}-${m.padStart(2,'0')}-${d.padStart(2,'0')}` : fechaRaw;
+    const hora = horaRaw.length >= 5 ? horaRaw.slice(0, 5) : horaRaw;
+    rows.push({ fecha, hora, referencia: refDisplay, codigo, monto, cuentaDestino, nombreDestino, category, manualCategory: '', needsReview: !category });
+  }
+  return rows;
+}
 
 const CAJAS: CajaType[] = ['CAJA MAYOR', 'CAJA CHICA', 'CUENTA BNB', 'TARJETA'];
 const CAJA_LABEL: Record<CajaType, string> = {
@@ -112,6 +201,7 @@ export default function TransactionsPage() {
 
   // modal
   const [modalOpen, setModalOpen] = useState(false);
+  const [keepOpen,  setKeepOpen]  = useState(false);
   const [form,      setForm]      = useState({ ...emptyForm });
   const [saving,       setSaving]       = useState(false);
   const [formError,    setFormError]    = useState('');
@@ -138,6 +228,13 @@ export default function TransactionsPage() {
   const [traspasoFrom,    setTraspasoFrom]    = useState<TraspasoType>('CAJA MAYOR');
   const [traspasoTo,      setTraspasoTo]      = useState<TraspasoType>('CAJA CHICA');
   const [traspasoAutoriza,setTraspasoAutoriza]= useState<string>('Don Guido');
+
+  // ── BNB import state ──
+  const [bnbRows,        setBnbRows]        = useState<BnbRow[]>([]);
+  const [bnbModalOpen,   setBnbModalOpen]   = useState(false);
+  const [bnbImporting,   setBnbImporting]   = useState(false);
+  const [bnbError,       setBnbError]       = useState('');
+  const bnbFileRef = useRef<HTMLInputElement>(null);
 
   const fetchData = useCallback(async () => {
     setLoading(true);
@@ -275,6 +372,61 @@ export default function TransactionsPage() {
 
   const categories = form.type === 'ingreso' ? INCOME_CATEGORIES : EXPENSE_CATEGORIES;
 
+  // ── BNB import handlers ──
+  async function handleBnbFile(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    e.target.value = '';
+    const ab = await file.arrayBuffer();
+    try {
+      const rows = parseBnbWorkbook(ab);
+      if (!rows.length) { setBnbError('No se encontraron débitos en el archivo.'); return; }
+      const { data: existing } = await supabase
+        .from('transactions')
+        .select('notes')
+        .eq('caja', 'CUENTA BNB')
+        .eq('type', 'egreso');
+      const existingCodes = new Set((existing ?? []).map(t => t.notes ?? '').filter(Boolean));
+      const filtered = rows.filter(r => !existingCodes.has(r.codigo));
+      if (!filtered.length) { setBnbError('Todos los movimientos de este extracto ya están registrados.'); return; }
+      setBnbRows(filtered);
+      setBnbError('');
+      setBnbModalOpen(true);
+    } catch {
+      setBnbError('Error al leer el archivo. Asegúrate de subir el .xls del BNB.');
+    }
+  }
+
+  async function handleBnbImport() {
+    const unresolved = bnbRows.filter(r => r.needsReview && !r.manualCategory);
+    if (unresolved.length) {
+      setBnbError(`Faltan ${unresolved.length} categoría(s) marcadas en rojo.`);
+      return;
+    }
+    setBnbImporting(true); setBnbError('');
+    const payload = bnbRows.map(r => ({
+      date:           r.fecha,
+      time:           r.hora || null,
+      description:    r.referencia + (r.nombreDestino ? ` — ${r.nombreDestino}` : ''),
+      amount:         r.monto,
+      type:           'egreso' as const,
+      category:       r.manualCategory || r.category,
+      caja:           'CUENTA BNB' as CajaType,
+      notes:          r.codigo,
+      responsible_id: profile?.id ?? null,
+    }));
+    const { error } = await supabase.from('transactions').insert(payload);
+    setBnbImporting(false);
+    if (error) { setBnbError('Error al importar: ' + error.message); return; }
+    logActivity(profile?.id, profile?.name, 'Importación BNB', 'transaction', undefined, `${payload.length} egresos importados`);
+    setBnbModalOpen(false);
+    setBnbRows([]);
+    fetchData();
+  }
+
+  // ── close modal (always resets keepOpen) ──
+  function closeModal() { setModalOpen(false); setKeepOpen(false); }
+
   // ── open modal (new) ──
   function openNew() {
     const now = new Date();
@@ -344,7 +496,12 @@ export default function TransactionsPage() {
       setSaving(false);
       if (error) { setFormError('Error: ' + error.message); return; }
       await logActivity(profile?.id, profile?.name, 'Traspaso de caja', 'transaction', undefined, `Bs. ${amt} de ${CAJA_LABEL[traspasoFrom]} → ${CAJA_LABEL[traspasoTo]}`);
-      setModalOpen(false);
+      if (keepOpen) {
+        setForm(f => ({ ...emptyForm, date: f.date, time: f.time, caja: f.caja, type: f.type }));
+        setFormError('');
+      } else {
+        closeModal();
+      }
       fetchData();
       return;
     }
@@ -395,7 +552,17 @@ export default function TransactionsPage() {
       : (form.type === 'ingreso' ? 'Ingreso registrado' : 'Egreso registrado');
     logActivity(profile?.id, profile?.name, logAction, 'transaction', editingTxId ?? undefined, `${form.category} — Bs. ${form.amount} (${form.caja})`);
     setEditingTxId(null);
-    setModalOpen(false);
+    if (keepOpen && !editingTxId) {
+      setForm(f => ({ ...emptyForm, date: f.date, time: f.time, caja: f.caja, type: f.type }));
+      setFormError('');
+      setSelectedRoomId('');
+      setPaidSoFar(0);
+      setOccupiedRooms([]);
+      setVitrinaSaleProductId(null);
+      setVitrinaSellQty(1);
+    } else {
+      closeModal();
+    }
     fetchData();
     // refresh running balances
     const { data: allTx } = await supabase.from('transactions').select('type, amount, caja');
@@ -531,6 +698,21 @@ export default function TransactionsPage() {
                 </div>
               );
             })}
+          </div>
+        )}
+
+        {/* BNB Import button — only on BNB Mauri tab */}
+        {activeTab === 'bnb' && (
+          <div className="flex justify-end">
+            <input ref={bnbFileRef} type="file" accept=".xls,.xlsx" className="hidden" onChange={handleBnbFile} />
+            {bnbError && <p className="text-red-500 text-xs mr-3 self-center">{bnbError}</p>}
+            <button
+              onClick={() => { setBnbError(''); bnbFileRef.current?.click(); }}
+              className="flex items-center gap-2 px-4 py-2 text-sm font-semibold bg-blue-600 hover:bg-blue-500 text-white rounded-xl shadow transition-colors"
+            >
+              <Upload size={15} />
+              Importar Excel QR
+            </button>
           </div>
         )}
 
@@ -809,7 +991,7 @@ export default function TransactionsPage() {
           <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
               <h3 className="font-bold text-gray-900">{editingTxId ? 'Editar Movimiento' : 'Nuevo Movimiento'}</h3>
-              <button onClick={() => setModalOpen(false)} className="text-gray-400 hover:text-gray-600">
+              <button onClick={() => closeModal()} className="text-gray-400 hover:text-gray-600">
                 <X size={20} />
               </button>
             </div>
@@ -1062,15 +1244,26 @@ export default function TransactionsPage() {
               )}
             </div>
 
-            <div className="flex justify-end gap-3 px-6 py-4 border-t border-gray-100">
-              <button onClick={() => setModalOpen(false)}
-                className="px-4 py-2 text-sm font-medium text-gray-600 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
-                Cancelar
-              </button>
-              <button onClick={handleSave} disabled={saving}
-                className="px-5 py-2 text-sm font-semibold bg-amber-400 hover:bg-amber-300 text-gray-900 rounded-lg transition-colors disabled:opacity-50">
-                {saving ? 'Guardando...' : 'Guardar'}
-              </button>
+            <div className="flex items-center justify-between px-6 py-4 border-t border-gray-100">
+              <label className="flex items-center gap-2 cursor-pointer select-none">
+                <div
+                  onClick={() => setKeepOpen(v => !v)}
+                  className={`relative w-9 h-5 rounded-full transition-colors ${keepOpen ? 'bg-amber-400' : 'bg-gray-200'}`}
+                >
+                  <span className={`absolute top-0.5 left-0.5 w-4 h-4 bg-white rounded-full shadow transition-transform ${keepOpen ? 'translate-x-4' : 'translate-x-0'}`} />
+                </div>
+                <span className="text-xs text-gray-500 font-medium">Agregar otro</span>
+              </label>
+              <div className="flex gap-3">
+                <button onClick={() => closeModal()}
+                  className="px-4 py-2 text-sm font-medium text-gray-600 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+                  Cancelar
+                </button>
+                <button onClick={handleSave} disabled={saving}
+                  className="px-5 py-2 text-sm font-semibold bg-amber-400 hover:bg-amber-300 text-gray-900 rounded-lg transition-colors disabled:opacity-50">
+                  {saving ? 'Guardando...' : 'Guardar'}
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -1116,6 +1309,83 @@ export default function TransactionsPage() {
                 className="px-5 py-2 text-sm font-semibold bg-red-500 hover:bg-red-400 text-white rounded-lg">
                 Eliminar
               </button>
+            </div>
+          </div>
+        </div>
+      )}
+      {/* ── BNB Import Preview Modal ── */}
+      {bnbModalOpen && (
+        <div className="fixed inset-0 z-[300] flex items-center justify-center p-4 bg-black/60">
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] flex flex-col">
+            <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
+              <div>
+                <h2 className="text-lg font-bold text-gray-900">📤 Importar egresos BNB</h2>
+                <p className="text-xs text-gray-500 mt-0.5">
+                  <span className="text-green-600 font-semibold">{bnbRows.filter(r => !r.needsReview).length} auto-categorizados</span>
+                  {bnbRows.filter(r => r.needsReview).length > 0 && (
+                    <> · <span className="text-red-500 font-semibold">{bnbRows.filter(r => r.needsReview).length} requieren categoría manual</span></>
+                  )}
+                </p>
+              </div>
+              <button onClick={() => { setBnbModalOpen(false); setBnbRows([]); setBnbError(''); }} className="text-gray-400 hover:text-gray-600"><X size={20} /></button>
+            </div>
+            <div className="overflow-auto flex-1 px-2 py-3">
+              <table className="w-full text-xs border-collapse">
+                <thead>
+                  <tr className="bg-gray-50 text-gray-500 uppercase text-[10px] tracking-wider">
+                    <th className="px-3 py-2 text-left">Fecha</th>
+                    <th className="px-3 py-2 text-left">Referencia</th>
+                    <th className="px-3 py-2 text-left">Cuenta destino</th>
+                    <th className="px-3 py-2 text-right">Monto</th>
+                    <th className="px-3 py-2 text-left min-w-[200px]">Categoría</th>
+                    <th className="px-2 py-2"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {bnbRows.map((row, idx) => (
+                    <tr key={idx} className={`border-b border-gray-100 ${row.needsReview ? 'bg-red-50' : 'bg-white'}`}>
+                      <td className="px-3 py-2 whitespace-nowrap text-gray-600">{row.fecha}<br /><span className="text-gray-400">{row.hora}</span></td>
+                      <td className="px-3 py-2 text-gray-800 font-medium whitespace-normal break-words max-w-[130px]">
+                        {row.referencia}
+                        <div className="text-gray-400 text-[10px] mt-0.5">{row.codigo}</div>
+                      </td>
+                      <td className="px-3 py-2 text-gray-500 whitespace-normal break-words max-w-[160px] text-xs">{row.nombreDestino || row.cuentaDestino}</td>
+                      <td className="px-3 py-2 text-right font-semibold text-red-600 whitespace-nowrap">Bs. {row.monto.toFixed(2)}</td>
+                      <td className="px-3 py-2 min-w-[200px]">
+                        <select
+                          value={row.manualCategory || row.category}
+                          onChange={e => setBnbRows(prev => prev.map((r, i) => i === idx ? { ...r, manualCategory: e.target.value, needsReview: !e.target.value } : r))}
+                          className={`w-full border rounded-lg px-2 py-1 text-xs focus:outline-none focus:ring-2 focus:ring-amber-300 ${row.needsReview && !row.manualCategory ? 'border-red-400 bg-red-50' : 'border-green-300 bg-green-50 text-green-800'}`}
+                        >
+                          {row.needsReview && !row.manualCategory && <option value="">— Seleccionar —</option>}
+                          {EXPENSE_CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
+                        </select>
+                      </td>
+                      <td className="px-2 py-2">
+                        <button
+                          onClick={() => setBnbRows(prev => prev.filter((_, i) => i !== idx))}
+                          className="text-gray-300 hover:text-red-400 transition-colors"
+                          title="Excluir este movimiento"
+                        ><X size={14} /></button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <div className="flex items-center justify-between px-6 py-4 border-t border-gray-100">
+              {bnbError && <p className="text-red-500 text-sm">{bnbError}</p>}
+              {!bnbError && <p className="text-xs text-gray-400">Los duplicados ya registrados fueron omitidos automáticamente.</p>}
+              <div className="flex gap-3 ml-auto">
+                <button onClick={() => { setBnbModalOpen(false); setBnbRows([]); setBnbError(''); }}
+                  className="px-4 py-2 text-sm font-medium text-gray-600 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+                  Cancelar
+                </button>
+                <button onClick={handleBnbImport} disabled={bnbImporting}
+                  className="px-5 py-2 text-sm font-semibold bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition-colors disabled:opacity-50">
+                  {bnbImporting ? 'Importando...' : `Importar ${bnbRows.length} movimientos`}
+                </button>
+              </div>
             </div>
           </div>
         </div>
