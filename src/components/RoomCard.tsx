@@ -17,8 +17,6 @@ import {
   Shirt,
   RefreshCw,
   Zap,
-  GlassWater,
-  Eye,
 } from "lucide-react";
 import type { Room, AmenityKey } from "../data/rooms";
 
@@ -34,8 +32,6 @@ const amenityIcons: Record<AmenityKey, React.ReactNode> = {
   towels: <Bath size={16} />,
   iron: <Shirt size={16} />,
   laundry: <RefreshCw size={16} />,
-  minibar: <GlassWater size={16} />,
-  streetview: <Eye size={16} />,
 };
 
 interface RoomCardProps {

@@ -201,15 +201,6 @@ export default function BookingForm({ filters }: Props) {
                     </option>
                   ))}
               </optgroup>
-              <optgroup label={t("rooms.suitesTitle")}>
-                {allRooms
-                  .filter((r) => r.category === "suite")
-                  .map((r) => (
-                    <option key={r.id} value={r.id}>
-                      {t(r.nameKey)} — ${r.priceUSD}/night
-                    </option>
-                  ))}
-              </optgroup>
             </select>
           </div>
 
