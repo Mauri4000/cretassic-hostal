@@ -1,6 +1,6 @@
 {
   "nav": {
-    "rooms": "Suites & Habitaciones",
+    "rooms": "Habitaciones",
     "amenities": "Servicios",
     "gallery": "Galería",
     "contact": "Contacto",
@@ -34,7 +34,7 @@
     "title": "Encuéntranos",
     "subtitle": "Abiertos las 24 horas — ven cuando quieras",
     "addressLabel": "Dirección",
-    "address": "Aniceto Arce 247, entre Av. Hernando Siles y calle Urcullo, Sucre, Bolivia",
+    "address": "Avenida Hernando Siles #901, Sucre, Bolivia",
     "hoursLabel": "Horario",
     "hours": "Abierto 24 horas",
     "waCta": "npm Chatea con nosotros por WhatsApp",
@@ -181,11 +181,10 @@
     "names": {
       "simple": "Simple",
       "matrimonial": "Matrimonial",
-      "double": "Doble",
-      "suiteSimple": "Suite Simple",
-      "suiteMatrimonial": "Suite Matrimonial",
-      "suiteDouble": "Suite Doble",
-      "suiteTriple": "Suite Triple"
+      "doble": "Doble",
+      "familiar": "Familiar (Mat. + Simple)",
+      "triple": "Triple",
+      "cuadruple": "Cuádruple"
     },
     "amenities": {
       "wifi": "WiFi gratis",

@@ -1,6 +1,6 @@
 {
   "nav": {
-    "rooms": "Suites & Chambres",
+    "rooms": "Chambres",
     "amenities": "Services",
     "gallery": "Galerie",
     "contact": "Contact",
@@ -34,7 +34,7 @@
     "title": "Nous trouver",
     "subtitle": "Ouvert 24h/24 — venez quand vous voulez",
     "addressLabel": "Adresse",
-    "address": "Aniceto Arce 247, entre l'Av. Hernando Siles et la rue Urcullo, Sucre, Bolivie",
+    "address": "Avenida Hernando Siles #901, Sucre, Bolivie",
     "hoursLabel": "Horaires",
     "hours": "Ouvert 24h/24",
     "waCta": "Chattez avec nous sur WhatsApp",
@@ -179,13 +179,12 @@
     "unavailable": "Non disponible",
     "pet": "Tous les animaux bienvenus · $3 USD/nuit",
     "names": {
-      "simple": "Chambre Simple",
-      "matrimonial": "Chambre Double",
-      "double": "Chambre Twin",
-      "suiteSimple": "Suite Simple",
-      "suiteMatrimonial": "Suite Double",
-      "suiteDouble": "Suite Twin",
-      "suiteTriple": "Suite Triple"
+      "simple": "Simple",
+      "matrimonial": "Matrimoniale",
+      "doble": "Double",
+      "familiar": "Familiale (Mat. + Simple)",
+      "triple": "Triple",
+      "cuadruple": "Quadruple"
     },
     "amenities": {
       "wifi": "WiFi gratuit",

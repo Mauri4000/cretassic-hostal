@@ -30,8 +30,6 @@ export default function Rooms({ filters }: Props) {
   );
 
   const filtered = rooms.filter((r) => r.capacity >= maxPerRoom);
-  const standardRooms = filtered.filter((r) => r.category === "room");
-  const suites = filtered.filter((r) => r.category === "suite");
   const noResults = filtered.length === 0;
 
   return (
@@ -52,8 +50,8 @@ export default function Rooms({ filters }: Props) {
           </div>
         )}
 
-        {/* Standard rooms */}
-        {standardRooms.length > 0 && (
+        {/* Habitaciones */}
+        {filtered.length > 0 && (
           <div data-testid="rooms-standard" className="mb-20">
             <div className="text-center mb-12">
               <div className="flex justify-center mb-4">
@@ -65,35 +63,7 @@ export default function Rooms({ filters }: Props) {
               <p className="text-gray-500 text-lg">{t("rooms.subtitle")}</p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {standardRooms.map((room, i) => (
-                <motion.div
-                  key={room.id}
-                  custom={i}
-                  initial="hidden"
-                  whileInView="visible"
-                  viewport={{ once: true }}
-                  variants={cardVariants}
-                >
-                  <RoomCard room={room} filters={filters} unavailable={unavailableTypes.has(room.adminType)} />
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* Suites */}
-        {suites.length > 0 && (
-          <div data-testid="rooms-suites" className="mb-16">
-            <div className="text-center mb-12">
-              <h2 className="text-4xl font-bold text-gray-900 mb-3">
-                {t("rooms.suitesTitle")}
-              </h2>
-              <p className="text-gray-500 text-lg">
-                {t("rooms.suitesSubtitle")}
-              </p>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {suites.map((room, i) => (
+              {filtered.map((room, i) => (
                 <motion.div
                   key={room.id}
                   custom={i}

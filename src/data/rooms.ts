@@ -1,24 +1,11 @@
-import simpleImg from "../assets/rooms/room-simple.jpeg";
-import simpleBathImg from "../assets/rooms/room-simple-bath.jpeg";
-import simpleSinkImg from "../assets/rooms/room-simple-sink.jpeg";
-import simpleDeskImg from "../assets/rooms/room-simple-desk.jpeg";
-import simpleClosetImg from "../assets/rooms/room-simple-closet.jpeg";
-import doubleImg from "../assets/rooms/room-double.jpeg";
-import doubleBathImg from "../assets/rooms/room-double-bath.jpeg";
-import doubleSinkImg from "../assets/rooms/room-double-sink.jpeg";
-import doubleClosetImg from "../assets/rooms/room-double-closet.jpeg";
-import suiteImg from "../assets/rooms/room-suite.jpeg";
-import suiteBathImg from "../assets/rooms/room-suite-bath.jpeg";
-import suiteSinkImg from "../assets/rooms/room-suite-sink.jpeg";
-import suiteMinibarImg from "../assets/rooms/room-suite-minibar.jpeg";
-import suiteClosetImg from "../assets/rooms/room-suite-closet.jpeg";
-import suiteTripleImg from "../assets/rooms/room-suite-triple.jpeg";
-import suiteTripleRoom2Img from "../assets/rooms/room-suite-triple-room2.jpeg";
-import suiteTripleBathImg from "../assets/rooms/room-suite-triple-bath.jpeg";
-import suiteTripleSinkImg from "../assets/rooms/room-suite-triple-sink.jpeg";
-import suiteTripleClosetImg from "../assets/rooms/room-suite-triple-closet.jpeg";
+import simpleImg     from "../assets/rooms/room-simple-real.jpeg";
+import matrimonialImg from "../assets/rooms/room-matrimonial-real.jpeg";
+import dobleImg       from "../assets/rooms/room-doble-real.jpeg";
+import familiarImg    from "../assets/rooms/room-familiar-real.jpeg";
+import tripleImg      from "../assets/rooms/room-triple-real.jpeg";
+import cuadrupleImg   from "../assets/rooms/room-cuadruple-real.jpeg";
 
-export type RoomCategory = "room" | "suite";
+export type RoomCategory = "room";
 export type AmenityKey =
   | "wifi"
   | "tv"
@@ -30,9 +17,7 @@ export type AmenityKey =
   | "hairdryer"
   | "towels"
   | "iron"
-  | "laundry"
-  | "minibar"
-  | "streetview";
+  | "laundry";
 
 export interface Room {
   id: string;
@@ -48,217 +33,91 @@ export interface Room {
   amenities: AmenityKey[];
 }
 
+const commonAmenities: AmenityKey[] = [
+  "wifi",
+  "tv",
+  "shower",
+  "breakfast",
+  "hairdryer",
+  "towels",
+  "iron",
+  "laundry",
+  "desk",
+  "closet",
+  "fan",
+];
+
 export const rooms: Room[] = [
   {
     id: "simple",
-    adminType: "S/M",
+    adminType: "SIMPLE",
     nameKey: "rooms.names.simple",
     category: "room",
     image: simpleImg,
-    gallery: [
-      simpleImg,
-      simpleBathImg,
-      simpleSinkImg,
-      simpleDeskImg,
-      simpleClosetImg,
-    ],
-    price: 200,
-    priceUSD: 22,
+    gallery: [simpleImg],
+    price: 170,
+    priceUSD: 19,
     capacity: 1,
-    amenities: [
-      "wifi",
-      "tv",
-      "shower",
-      "breakfast",
-      "hairdryer",
-      "towels",
-      "iron",
-      "laundry",
-      "desk",
-      "closet",
-      "fan",
-    ],
+    amenities: commonAmenities,
   },
   {
     id: "matrimonial",
-    adminType: "S/M",
+    adminType: "MATRIMONIAL",
     nameKey: "rooms.names.matrimonial",
     category: "room",
-    image: simpleImg,
-    gallery: [
-      simpleImg,
-      simpleBathImg,
-      simpleSinkImg,
-      simpleDeskImg,
-      simpleClosetImg,
-    ],
-    price: 250,
-    priceUSD: 27,
+    image: matrimonialImg,
+    gallery: [matrimonialImg],
+    price: 270,
+    priceUSD: 30,
     capacity: 2,
-    amenities: [
-      "wifi",
-      "tv",
-      "shower",
-      "breakfast",
-      "hairdryer",
-      "towels",
-      "iron",
-      "laundry",
-      "desk",
-      "closet",
-      "fan",
-    ],
+    amenities: commonAmenities,
   },
   {
-    id: "double",
-    adminType: "DOBLE/FAM",
-    nameKey: "rooms.names.double",
+    id: "doble",
+    adminType: "DOBLE",
+    nameKey: "rooms.names.doble",
     category: "room",
-    image: doubleImg,
-    gallery: [doubleImg, doubleBathImg, doubleSinkImg, doubleClosetImg],
-    price: 300,
-    priceUSD: 33,
+    image: dobleImg,
+    gallery: [dobleImg],
+    price: 270,
+    priceUSD: 30,
     capacity: 2,
-    amenities: [
-      "wifi",
-      "tv",
-      "shower",
-      "breakfast",
-      "hairdryer",
-      "towels",
-      "iron",
-      "laundry",
-      "desk",
-      "closet",
-      "fan",
-    ],
+    amenities: commonAmenities,
   },
   {
-    id: "suite-simple",
-    adminType: "SUITE S/M/F",
-    nameKey: "rooms.names.suiteSimple",
-    category: "suite",
-    image: suiteImg,
-    gallery: [
-      suiteImg,
-      suiteBathImg,
-      suiteSinkImg,
-      suiteMinibarImg,
-      suiteClosetImg,
-    ],
-    price: 250,
-    priceUSD: 27,
-    capacity: 1,
-    amenities: [
-      "wifi",
-      "tv",
-      "shower",
-      "breakfast",
-      "hairdryer",
-      "towels",
-      "iron",
-      "laundry",
-      "minibar",
-      "streetview",
-      "desk",
-      "closet",
-      "fan",
-    ],
-  },
-  {
-    id: "suite-matrimonial",
-    adminType: "SUITE S/M/F",
-    nameKey: "rooms.names.suiteMatrimonial",
-    category: "suite",
-    image: suiteImg,
-    gallery: [
-      suiteImg,
-      suiteBathImg,
-      suiteSinkImg,
-      suiteMinibarImg,
-      suiteClosetImg,
-    ],
-    price: 300,
-    priceUSD: 33,
-    capacity: 2,
-    amenities: [
-      "wifi",
-      "tv",
-      "shower",
-      "breakfast",
-      "hairdryer",
-      "towels",
-      "iron",
-      "laundry",
-      "minibar",
-      "streetview",
-      "desk",
-      "closet",
-      "fan",
-    ],
-  },
-  {
-    id: "suite-double",
-    adminType: "SUITE S/M/F",
-    nameKey: "rooms.names.suiteDouble",
-    category: "suite",
-    image: suiteImg,
-    gallery: [
-      suiteImg,
-      suiteBathImg,
-      suiteSinkImg,
-      suiteMinibarImg,
-      suiteClosetImg,
-    ],
-    price: 350,
-    priceUSD: 38,
-    capacity: 2,
-    amenities: [
-      "wifi",
-      "tv",
-      "shower",
-      "breakfast",
-      "hairdryer",
-      "towels",
-      "iron",
-      "laundry",
-      "minibar",
-      "streetview",
-      "desk",
-      "closet",
-      "fan",
-    ],
-  },
-  {
-    id: "suite-triple",
-    adminType: "SUITE S/M/F (4)",
-    nameKey: "rooms.names.suiteTriple",
-    category: "suite",
-    image: suiteTripleImg,
-    gallery: [
-      suiteTripleImg,
-      suiteTripleRoom2Img,
-      suiteTripleBathImg,
-      suiteTripleSinkImg,
-      suiteTripleClosetImg,
-    ],
-    price: 400,
-    priceUSD: 43,
+    id: "familiar",
+    adminType: "FAMILIAR",
+    nameKey: "rooms.names.familiar",
+    category: "room",
+    image: familiarImg,
+    gallery: [familiarImg],
+    price: 330,
+    priceUSD: 36,
     capacity: 3,
-    amenities: [
-      "wifi",
-      "tv",
-      "shower",
-      "breakfast",
-      "hairdryer",
-      "towels",
-      "iron",
-      "laundry",
-      "minibar",
-      "streetview",
-      "desk",
-      "closet",
-      "fan",
-    ],
+    amenities: commonAmenities,
+  },
+  {
+    id: "triple",
+    adminType: "TRIPLE",
+    nameKey: "rooms.names.triple",
+    category: "room",
+    image: tripleImg,
+    gallery: [tripleImg],
+    price: 330,
+    priceUSD: 36,
+    capacity: 3,
+    amenities: commonAmenities,
+  },
+  {
+    id: "cuadruple",
+    adminType: "CUADRUPLE",
+    nameKey: "rooms.names.cuadruple",
+    category: "room",
+    image: cuadrupleImg,
+    gallery: [cuadrupleImg],
+    price: 400,
+    priceUSD: 44,
+    capacity: 4,
+    amenities: commonAmenities,
   },
 ];

@@ -13,8 +13,7 @@ const languages = [
 type NavLink = { key: string; href: string };
 
 const navLinks: NavLink[] = [
-  { key: "rooms",   href: "#rooms" },
-  { key: "gallery", href: "/gallery" },
+  { key: "rooms", href: "#rooms" },
 ];
 
 export default function Navbar() {
@@ -98,14 +97,6 @@ export default function Navbar() {
           ))}
         </div>
         <a
-          data-testid="nav-btn-offers"
-          href="#offers"
-          onClick={(e) => handleLink(e, "#offers")}
-          className="border border-white/40 hover:border-amber-400 hover:text-amber-400 text-white px-4 py-2 rounded text-sm font-semibold transition-colors"
-        >
-          🌟 {t("nav.offers")}
-        </a>
-        <a
           data-testid="nav-btn-book"
           href="#booking"
           onClick={(e) => handleLink(e, "#booking")}
@@ -143,14 +134,6 @@ export default function Navbar() {
               {linkLabel(link)}
             </a>
           ))}
-          <a
-            data-testid="nav-mobile-btn-offers"
-            href="#offers"
-            onClick={(e) => { handleLink(e, "#offers"); setMenuOpen(false); }}
-            className="border border-white/40 hover:border-amber-400 hover:text-amber-400 px-4 py-2 rounded text-sm font-semibold transition-colors"
-          >
-            🌟 {t("nav.offers")}
-          </a>
           <a
             data-testid="nav-mobile-btn-book"
             href="#booking"

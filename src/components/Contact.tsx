@@ -2,12 +2,12 @@ import { useTranslation } from "react-i18next";
 import { MapPin, Phone, Mail, Clock, MessageCircle } from "lucide-react";
 import { motion } from "framer-motion";
 
-const WA_NUMBER = "59178637098";
+const WA_NUMBER = "59178706531";
 const EMAIL = "cretassichostal@gmail.com";
 // Address parts translated via i18n
 
 const MAPS_EMBED =
-  "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3799.3!2d-65.2627!3d-19.0478!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x93fbd3c2a1b1b1b1%3A0x1!2sAniceto+Arce+247%2C+Sucre%2C+Bolivia!5e0!3m2!1ses!2sbo!4v1234567890";
+  "https://maps.google.com/maps?q=Cretassic+Hostal+Sucre+Bolivia&t=&z=17&ie=UTF8&iwloc=&output=embed";
 
 interface InfoRowProps {
   icon: React.ReactNode;
@@ -90,7 +90,7 @@ export default function Contact() {
                 icon={<MapPin size={18} />}
                 label={t("contact.addressLabel")}
                 value={t("contact.address")}
-                href="https://maps.google.com/?q=Aniceto+Arce+247+Sucre+Bolivia"
+                href="https://maps.google.com/?q=Cretassic+Hostal+Sucre+Bolivia"
               />
               <InfoRow
                 testId="contact-phone"
