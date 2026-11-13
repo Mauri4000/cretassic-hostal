@@ -33,3 +33,6 @@ dist-ssr
 # Scripts with credentials — never commit
 scripts/
 
+import_blacklist.py
+LISTA NEGRA.xlsx
+supabase_blacklist.sql

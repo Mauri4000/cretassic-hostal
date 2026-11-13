@@ -38,6 +38,7 @@ const MarketingCalendarPage = lazy(
 const PlanillasPage = lazy(() => import("./admin/pages/PlanillasPage"));
 const ImpuestosPage = lazy(() => import("./admin/pages/ImpuestosPage"));
 const PreciosPage = lazy(() => import("./admin/pages/PreciosPage"));
+const BlacklistPage = lazy(() => import("./admin/pages/BlacklistPage"));
 
 // Spinner shown while lazy page loads
 function PageSpinner() {
@@ -93,6 +94,7 @@ function AdminApp() {
           <Route path="planillas" element={<PlanillasPage />} />
           <Route path="impuestos" element={<ImpuestosPage />} />
           <Route path="precios" element={<PreciosPage />} />
+          <Route path="blacklist" element={<BlacklistPage />} />
         </Routes>
       </Suspense>
     </AdminLayout>
