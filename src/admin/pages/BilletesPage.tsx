@@ -350,7 +350,7 @@ export default function BilletesPage() {
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">Monto *</label>
                   <div className="flex gap-3">
-                    {[100, 200].map(m => (
+                    {[50, 100, 200].map(m => (
                       <button key={m} type="button"
                         onClick={() => setForm(f => ({ ...f, amount: m }))}
                         className={`flex-1 py-4 rounded-xl border-2 text-lg font-bold transition-all ${

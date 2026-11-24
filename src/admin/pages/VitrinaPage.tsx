@@ -6,6 +6,7 @@ import { supabase } from '../../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
 import { logActivity } from '../../lib/logActivity';
 import DatePicker from '../components/DatePicker';
+import LostFoundTab from '../components/LostFoundTab';
 
 type Location =
   | 'vitrina_recepcion'
@@ -85,7 +86,7 @@ export default function VitrinaPage() {
   const [products,   setProducts]   = useState<VitrinaProduct[]>([]);
   const [loading,    setLoading]    = useState(true);
   const [search,     setSearch]     = useState('');
-  const [tab,        setTab]        = useState<'todos' | 'sin_asignar' | Location>('todos');
+  const [tab,        setTab]        = useState<'todos' | 'sin_asignar' | 'lost_found' | Location>('todos');
   const [saving,     setSaving]     = useState<Record<string, boolean>>({});
   const [pending,    setPending]    = useState<Record<string, number>>({});
   const [fetchError, setFetchError] = useState<string | null>(null);
@@ -306,25 +307,29 @@ export default function VitrinaPage() {
       <div className="flex items-center justify-between flex-wrap gap-3">
         <div>
           <h1 className="text-xl font-bold text-gray-900">Stock Hotel</h1>
-          <p className="text-sm text-gray-500 mt-0.5">
-            {filtered.length} productos · {totalItems} unidades · Bs. {totalValue.toFixed(2)} valor total
-          </p>
-        </div>
-        <div className="flex items-center gap-2">
-          <button onClick={fetchProducts} className="p-2 rounded-lg border border-gray-200 hover:bg-gray-100 text-gray-500">
-            <RefreshCw size={16} />
-          </button>
-          <button data-testid="btn-add-product" onClick={() => { setForm(emptyForm); setAddError(null); setShowAddModal(true); }}
-            className="flex items-center gap-1.5 px-4 py-2 bg-gray-900 hover:bg-gray-800 text-white font-semibold text-sm rounded-lg transition-colors">
-            <Plus size={16} /> Nuevo producto
-          </button>
-          {hasPending && (
-            <button onClick={saveAll}
-              className="px-4 py-2 bg-amber-400 hover:bg-amber-300 text-gray-900 font-semibold text-sm rounded-lg transition-colors">
-              Guardar cambios ({Object.keys(pending).length})
-            </button>
+          {tab !== 'lost_found' && (
+            <p className="text-sm text-gray-500 mt-0.5">
+              {filtered.length} productos · {totalItems} unidades · Bs. {totalValue.toFixed(2)} valor total
+            </p>
           )}
         </div>
+        {tab !== 'lost_found' && (
+          <div className="flex items-center gap-2">
+            <button onClick={fetchProducts} className="p-2 rounded-lg border border-gray-200 hover:bg-gray-100 text-gray-500">
+              <RefreshCw size={16} />
+            </button>
+            <button data-testid="btn-add-product" onClick={() => { setForm(emptyForm); setAddError(null); setShowAddModal(true); }}
+              className="flex items-center gap-1.5 px-4 py-2 bg-gray-900 hover:bg-gray-800 text-white font-semibold text-sm rounded-lg transition-colors">
+              <Plus size={16} /> Nuevo producto
+            </button>
+            {hasPending && (
+              <button onClick={saveAll}
+                className="px-4 py-2 bg-amber-400 hover:bg-amber-300 text-gray-900 font-semibold text-sm rounded-lg transition-colors">
+                Guardar cambios ({Object.keys(pending).length})
+              </button>
+            )}
+          </div>
+        )}
       </div>
 
       {/* Tabs */}
@@ -337,7 +342,19 @@ export default function VitrinaPage() {
             {label} <span className="text-xs font-normal text-gray-400">({tabCounts[key] ?? 0})</span>
           </button>
         ))}
+        <button onClick={() => setTab('lost_found')}
+          className={`flex-shrink-0 px-4 py-2 text-sm font-semibold border-b-2 -mb-px transition-colors whitespace-nowrap ${
+            tab === 'lost_found' ? 'border-blue-400 text-gray-900' : 'border-transparent text-gray-400 hover:text-gray-600'
+          }`}>
+          🔍 Objetos Perdidos
+        </button>
       </div>
+
+      {/* Lost & Found tab content */}
+      {tab === 'lost_found' && <LostFoundTab />}
+
+      {/* Product search + grid — hidden on lost_found tab */}
+      {tab !== 'lost_found' && <>
 
       {/* Search */}
       <div className="relative max-w-xs">
@@ -437,6 +454,8 @@ export default function VitrinaPage() {
           )}
         </div>
       )}
+
+      </> /* end tab !== 'lost_found' */}
 
       {/* ── Add modal ── */}
       {showAddModal && (
