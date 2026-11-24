@@ -107,7 +107,7 @@ function PhotoGalleryEditor({
   onDrop: (e: DragEvent) => void;
   onAdd: () => void;
   onRemove: (i: number) => void;
-  fileRef: React.RefObject<HTMLInputElement>;
+  fileRef: React.RefObject<HTMLInputElement | null>;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }) {
   return (
